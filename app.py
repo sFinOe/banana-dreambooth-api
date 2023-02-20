@@ -1,8 +1,3 @@
-import torch
-from torch import autocast
-from diffusers import StableDiffusionPipeline, LMSDiscreteScheduler
-import base64
-from io import BytesIO
 import os
 import json
 import subprocess
