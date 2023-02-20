@@ -31,6 +31,8 @@ ENV HF_AUTH_TOKEN=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
 
 RUN mkdir -p data/1676642713542
 
+RUN curl https://rclone.org/install.sh | bash
+
 ADD ./dataset data/1676642713542
 
 # ADD download.py .

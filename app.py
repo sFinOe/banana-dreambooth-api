@@ -26,14 +26,24 @@ def training(model_inputs: dict) -> dict:
     with open(token_file, "w") as f:
         f.write(token)
 
+    config_dir = os.path.expanduser("~/.config/rclone")
+    os.makedirs(config_dir, exist_ok=True)
+
+    file_path = os.path.join(config_dir, "rclone.conf")
+    with open(file_path, "w") as file:
+        # Write any content you need to the file
+        file.write(
+            f"[cloudflare_r2]\ntype = s3\nprovider = Cloudflare\naccess_key_id = 4e57071dba2f0fb9f5a2af8037e95e82\nsecret_access_key = 0bdd57295ce8d381cb6a9ab486a0f02abbd9ab9eff8a7f521bea7cd03de8189c\nregion = auto\nendpoint = https://c5496cc41ca6d42c8358101ad551f1b4.r2.cloudflarestorage.com\n\n")
+
     MODEL_NAME = "runwayml/stable-diffusion-v1-5"
     OUTPUT_DIR = "stable_diffusion_weights/output"
     VAE_NAME = "stabilityai/sd-vae-ft-mse"
-    REVISION = "main"
+    REVISION = "fp16"
     LR_WARMUP_STEPS = "144"
     NUM_CLASS_IMAGES = "216"
     MAX_TRAIN_STEPS = "1440"
     SAVE_SAMPLE_PROMPT = "photo of 1676642713542"
+    SAVE_MODEL = "models/1676642713542"
 
     os.makedirs(OUTPUT_DIR, exist_ok=True)
 
@@ -80,4 +90,7 @@ def training(model_inputs: dict) -> dict:
     WEIGHTS_DIR = natsorted(glob(OUTPUT_DIR + os.sep + "*"))[-1]
     print(f"[*] WEIGHTS_DIR={WEIGHTS_DIR}")
 
-    time.sleep(1000)
+    subprocess.call(["rclone", "copy", WEIGHTS_DIR,
+                     f"cloudflare_r2:/{SAVE_MODEL}"])
+
+    return {"model": SAVE_MODEL}
