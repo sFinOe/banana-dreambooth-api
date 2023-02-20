@@ -9,8 +9,6 @@ import app as user_src
 
 # We do the model load-to-GPU step on server startup
 # so the model object is available globally for reuse
-user_src.init()
-
 # Create the http server app
 server = Sanic("my_app")
 
