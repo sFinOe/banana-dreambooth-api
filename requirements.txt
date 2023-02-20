@@ -1,11 +1,10 @@
 sanic==22.6.2
-transformers
 scipy
 boto3
-accelerate
-ftfy
-bitsandbytes==0.35.0
-gradio
-natsort
-safetensors
-xformers
+# transformers
+# ftfy
+# bitsandbytes==0.35.0
+# gradio
+# natsort
+# safetensors
+# xformers

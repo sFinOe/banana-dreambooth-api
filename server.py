@@ -5,12 +5,12 @@
 
 from sanic import Sanic, response
 import subprocess
-import app as user_src
+import training as user_src
 
 # We do the model load-to-GPU step on server startup
 # so the model object is available globally for reuse
 # Create the http server app
-user_src.init()
+# user_src.init()
 
 server = Sanic("my_app")
 
