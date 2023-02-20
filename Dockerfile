@@ -15,10 +15,12 @@ RUN wget -q https://github.com/ShivamShrirao/diffusers/raw/main/examples/dreambo
 	wget -q https://github.com/ShivamShrirao/diffusers/raw/main/scripts/convert_diffusers_to_original_stable_diffusion.py
 
 RUN pip3 install -qq git+https://github.com/ShivamShrirao/diffusers && \
-	pip3 install -q accelerate==0.12.0 transformers ftfy bitsandbytes gradio natsort
+	pip3 install -q accelerate==0.12.0 transformers ftfy bitsandbytes gradio natsort safetensors
 
 RUN pip3 install git+https://github.com/facebookresearch/xformers@1d31a3a#egg=xformers && \
 	pip3 install natsort
+
+RUN pip3 install sanic==22.6.2 scipy boto3
 
 # We add the banana boilerplate here
 ADD server.py .
