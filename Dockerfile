@@ -6,18 +6,19 @@ WORKDIR /
 # Install git
 RUN apt-get update && apt-get install git python3 python3-pip wget curl unzip -y
 
+# Install python packages
+RUN pip3 install --upgrade pip
+# ADD requirements.txt requirements.txt
+# RUN pip3 install -r requirements.txt
+
 RUN wget -q https://github.com/ShivamShrirao/diffusers/raw/main/examples/dreambooth/train_dreambooth.py && \
 	wget -q https://github.com/ShivamShrirao/diffusers/raw/main/scripts/convert_diffusers_to_original_stable_diffusion.py
 
-RUN pip install -qq git+https://github.com/ShivamShrirao/diffusers && \
-	pip install -q -U --pre triton
+RUN pip3 install -qq git+https://github.com/ShivamShrirao/diffusers && \
+	pip3 install -q accelerate==0.12.0 transformers ftfy bitsandbytes gradio natsort
 
-# Install python packages
-RUN pip3 install --upgrade pip
-ADD requirements.txt requirements.txt
-RUN pip3 install -r requirements.txt
-
-RUN pip install natsort
+RUN pip3 install -q https://github.com/metrolobo/xformers_wheels/releases/download/1d31a3ac_various_6/xformers-0.0.14.dev0-cp37-cp37m-linux_x86_64.whl && \
+	pip3 install natsort
 
 # We add the banana boilerplate here
 ADD server.py .

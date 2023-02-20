@@ -21,7 +21,7 @@ def training(model_inputs: dict) -> dict:
         os.makedirs(folder_name, exist_ok=True)
     except FileExistsError:
         pass
-    token = HF_AUTH_TOKEN
+    token = "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"
     token_file = os.path.join(folder_name, "token")
     with open(token_file, "w") as f:
         f.write(token)
