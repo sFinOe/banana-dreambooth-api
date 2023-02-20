@@ -11,6 +11,13 @@ from glob import glob
 import time
 
 
+def init():
+    global model
+    HF_AUTH_TOKEN = os.getenv("HF_AUTH_TOKEN")
+
+    # model = StableDiffusionPipeline.from_pretrained("dreambooth_weights/",use_auth_token=HF_AUTH_TOKEN).to("cuda")
+
+
 def training(model_inputs: dict) -> dict:
     HF_AUTH_TOKEN = os.getenv("HF_AUTH_TOKEN")
 

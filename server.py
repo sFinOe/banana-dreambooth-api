@@ -10,6 +10,8 @@ import app as user_src
 # We do the model load-to-GPU step on server startup
 # so the model object is available globally for reuse
 # Create the http server app
+user_src.init()
+
 server = Sanic("my_app")
 
 # Healthchecks verify that the environment is correct on Banana Serverless
