@@ -29,11 +29,13 @@ ENV HF_AUTH_TOKEN=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
 # Add your model weight files 
 # (in this case we have a python script)
 
-RUN mkdir -p /data/1676642713542
+RUN mkdir -p /content/dataset/1676642713542 && \
+	mkdir -p /content/class_dir/woman && \
+	mkdir -p /content/output
 
 RUN curl https://rclone.org/install.sh | bash
 
-ADD ./dataset /data/1676642713542
+COPY ./dataset /content/dataset/1676642713542
 
 # ADD download.py .
 # RUN python3 download.py

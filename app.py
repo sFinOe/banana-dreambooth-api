@@ -36,7 +36,7 @@ def training(model_inputs: dict) -> dict:
             f"[cloudflare_r2]\ntype = s3\nprovider = Cloudflare\naccess_key_id = 4e57071dba2f0fb9f5a2af8037e95e82\nsecret_access_key = 0bdd57295ce8d381cb6a9ab486a0f02abbd9ab9eff8a7f521bea7cd03de8189c\nregion = auto\nendpoint = https://c5496cc41ca6d42c8358101ad551f1b4.r2.cloudflarestorage.com\n\n")
 
     MODEL_NAME = "runwayml/stable-diffusion-v1-5"
-    OUTPUT_DIR = "stable_diffusion_weights/output"
+    OUTPUT_DIR = "/content/output"
     VAE_NAME = "stabilityai/sd-vae-ft-mse"
     REVISION = "fp16"
     LR_WARMUP_STEPS = "144"
@@ -51,8 +51,8 @@ def training(model_inputs: dict) -> dict:
         {
             "instance_prompt":      "1676642713542",
             "class_prompt":         "photo of a woman",
-            "instance_data_dir":    "/data/1676642713542",
-            "class_data_dir":       "/data/woman"
+            "instance_data_dir":    "/content/dataset/1676642713542",
+            "class_data_dir":       "/content/class_dir/woman"
         },
     ]
 
