@@ -1,8 +1,8 @@
 sanic==22.6.2
 scipy
 boto3
--qq git+https://github.com/ShivamShrirao/diffusers
--q -U --pre triton
+git+https://github.com/ShivamShrirao/diffusers
+triton
 accelerate
 transformers
 ftfy
