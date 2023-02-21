@@ -39,6 +39,7 @@ def inference(request):
     from natsort import natsorted
     from glob import glob
 
+    os.system('export LD_LIBRARY_PATH="CUDAPATH:$LD_LIBRARY_PATH')
     MODEL_NAME = "SG161222/Realistic_Vision_V1.3"
     VAE_NAME = "stabilityai/sd-vae-ft-mse"
     LR_WARMUP_STEPS = "144"
@@ -81,7 +82,7 @@ def inference(request):
             "instance_prompt":      "1676642713542",
             "class_prompt":         "photo of a woman",
             "instance_data_dir":    "/content/data/1676642713542",
-            "class_data_dir":       "/content/data/woman"
+            "class_data_dir":       "/content/data/woman/person_ddim"
         },
     ]
 
