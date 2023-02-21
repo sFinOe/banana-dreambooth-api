@@ -1,10 +1,15 @@
 sanic==22.6.2
 scipy
 boto3
-# transformers
-# ftfy
-# bitsandbytes==0.35.0
-# gradio
-# natsort
-# safetensors
-# xformers
+-qq git+https://github.com/ShivamShrirao/diffusers
+-q -U --pre triton
+accelerate
+transformers
+ftfy
+bitsandbytes==0.35.0
+gradio
+natsort
+safetensors
+xformers
+natsort
+glob2
