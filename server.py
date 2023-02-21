@@ -9,7 +9,6 @@ from sanic import Sanic, response
 import subprocess
 from natsort import natsorted
 from glob import glob
-import os as myos
 
 # We do the model load-to-GPU step on server startup
 # so the model object is available globally for reuse
@@ -35,6 +34,10 @@ def healthcheck(request):
 
 @server.route('/', methods=["POST"])
 def inference(request):
+    import os
+    import subprocess
+    from natsort import natsorted
+    from glob import glob
 
     MODEL_NAME = "SG161222/Realistic_Vision_V1.3"
     VAE_NAME = "stabilityai/sd-vae-ft-mse"
@@ -54,22 +57,22 @@ def inference(request):
 
     # setup s3 bucket config
 
-    config_dir = myos.path.expanduser("~/.config/rclone")
-    myos.makedirs(config_dir, exist_ok=True)
+    config_dir = os.path.expanduser("~/.config/rclone")
+    os.makedirs(config_dir, exist_ok=True)
 
-    file_path = myos.path.join(config_dir, "rclone.conf")
+    file_path = os.path.join(config_dir, "rclone.conf")
     with open(file_path, "w") as file:
         # Write any content you need to the file
         file.write(
             f"[cloudflare_r2]\ntype = s3\nprovider = Cloudflare\naccess_key_id = {ACCESS_ID}\nsecret_access_key = {SECERT_KEY}\nregion = auto\nendpoint = {ENDPOINT_URL}\n\n")
 
-    folder_name = myos.path.expanduser("~/.huggingface")
+    folder_name = os.path.expanduser("~/.huggingface")
     try:
-        myos.makedirs(folder_name, exist_ok=True)
+        os.makedirs(folder_name, exist_ok=True)
     except FileExistsError:
         pass
     token = "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"
-    token_file = myos.path.join(folder_name, "token")
+    token_file = os.path.join(folder_name, "token")
     with open(token_file, "w") as f:
         f.write(token)
 
@@ -86,7 +89,7 @@ def inference(request):
     import json
     import os
     for c in concepts_list:
-        myos.makedirs(c["instance_data_dir"], exist_ok=True)
+        os.makedirs(c["instance_data_dir"], exist_ok=True)
 
     with open("concepts_list.json", "w") as f:
         json.dump(concepts_list, f, indent=4)
@@ -114,7 +117,7 @@ def inference(request):
                      f"--save_sample_prompt={SAVE_SAMPLE_PROMPT}",
                      "--concepts_list=MyConfig.json"])
 
-    WEIGHTS_DIR = natsorted(glob(OUTPUT_DIR + myos.sep + "*"))[-1]
+    WEIGHTS_DIR = natsorted(glob(OUTPUT_DIR + os.sep + "*"))[-1]
     print(f"[*] WEIGHTS_DIR={WEIGHTS_DIR}")
 
     subprocess.call(["rclone", "copy", WEIGHTS_DIR,
