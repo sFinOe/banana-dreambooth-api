@@ -114,7 +114,7 @@ def inference(request):
                      "--sample_batch_size=4",
                      f"--max_train_steps={MAX_TRAIN_STEPS}",
                      "--save_interval=10000",
-                     f"--save_sample_prompt={SAVE_SAMPLE_PROMPT}",
+                     f"--save_sample_prompt='{SAVE_SAMPLE_PROMPT}'",
                      "--concepts_list=concepts_list.json"])
 
     WEIGHTS_DIR = natsorted(glob(OUTPUT_DIR + os.sep + "*"))[-1]
