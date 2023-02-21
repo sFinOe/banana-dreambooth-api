@@ -5,7 +5,6 @@ git+https://github.com/ShivamShrirao/diffusers
 accelerate
 transformers
 ftfy
-bitsandbytes
 gradio
 natsort
 safetensors
