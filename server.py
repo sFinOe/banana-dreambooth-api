@@ -39,7 +39,6 @@ def inference(request):
     from natsort import natsorted
     from glob import glob
 
-    os.system('export LD_LIBRARY_PATH="CUDAPATH:$LD_LIBRARY_PATH')
     MODEL_NAME = "SG161222/Realistic_Vision_V1.3"
     VAE_NAME = "stabilityai/sd-vae-ft-mse"
     LR_WARMUP_STEPS = "144"
@@ -48,7 +47,7 @@ def inference(request):
     REVISION = "main"
     NUM_CLASS_IMAGES = "216"
     SAVE_MODEL = "models/1676642713542"
-    OUTPUT_DIR = "/content/output"
+    OUTPUT_DIR = "output"
 
     # s3 bucket config
 
@@ -81,8 +80,8 @@ def inference(request):
         {
             "instance_prompt":      "1676642713542",
             "class_prompt":         "photo of a woman",
-            "instance_data_dir":    "/content/data/1676642713542",
-            "class_data_dir":       "/content/data/woman/person_ddim"
+            "instance_data_dir":    "data/1676642713542",
+            "class_data_dir":       "content/data/woman"
         },
     ]
 
