@@ -3,6 +3,7 @@ FROM pytorch/pytorch:latest
 
 WORKDIR /content
 
+RUN apt update && apt install -y curl git wget
 
 RUN wget -q https://github.com/ShivamShrirao/diffusers/raw/main/examples/dreambooth/train_dreambooth.py && \
 	wget -q https://github.com/ShivamShrirao/diffusers/raw/main/scripts/convert_diffusers_to_original_stable_diffusion.py && \
