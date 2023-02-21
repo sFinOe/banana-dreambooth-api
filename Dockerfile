@@ -19,6 +19,9 @@ COPY ./dataset /content/data/1676642713542
 RUN git clone https://github.com/djbielejeski/Stable-Diffusion-Regularization-Images-person_ddim.git /content/data/woman && \
 	curl https://rclone.org/install.sh | bash
 
+RUN wget -q https://github.com/ShivamShrirao/diffusers/raw/main/examples/dreambooth/train_dreambooth.py && \
+	wget -q https://github.com/ShivamShrirao/diffusers/raw/main/scripts/convert_diffusers_to_original_stable_diffusion.py
+
 # We add the banana boilerplate here
 ADD server.py /content/
 EXPOSE 8000
