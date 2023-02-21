@@ -1,16 +1,11 @@
-import os
 import subprocess
-import json
-import argparse
-import zipfile
-import urllib.request
 from natsort import natsorted
 from glob import glob
-import shutil
-import time
+import os
 
 
 def inference(model_inputs: dict) -> dict:
+
     MODEL_NAME = "SG161222/Realistic_Vision_V1.3"
     VAE_NAME = "stabilityai/sd-vae-ft-mse"
     LR_WARMUP_STEPS = "144"
