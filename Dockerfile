@@ -11,7 +11,7 @@ RUN pip3 install --upgrade pip
 ADD requirements.txt /content/requirements.txt
 RUN pip3 install -r /content/requirements.txt
 
-RUN mkidr -p /content/data/1676642713542 && \
+RUN mkdir -p /content/data/1676642713542 && \
 	mkdir -p /content/output
 
 COPY ./dataset /content/data/1676642713542
