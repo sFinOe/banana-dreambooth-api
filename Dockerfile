@@ -22,7 +22,7 @@ RUN git clone https://github.com/djbielejeski/Stable-Diffusion-Regularization-Im
 RUN wget -q https://github.com/ShivamShrirao/diffusers/raw/main/examples/dreambooth/train_dreambooth.py && \
 	wget -q https://github.com/ShivamShrirao/diffusers/raw/main/scripts/convert_diffusers_to_original_stable_diffusion.py && \
 	pip3 install -q -U --pre triton && \
-	PIP3 install bitsandbytes-cuda111
+	pip3 install bitsandbytes-cuda111
 
 # We add the banana boilerplate here
 ADD server.py /content/
