@@ -1,10 +1,15 @@
 from sanic import Sanic, response
 import subprocess
-import app as App
+import app as user_src
 
-App.init()
+# We do the model load-to-GPU step on server startup
+# so the model object is available globally for reuse
+user_src.init()
 
+# Create the http server app
 server = Sanic("my_app")
+
+# Healthchecks verify that the environment is correct on Banana Serverless
 
 
 @server.route('/healthcheck', methods=["GET"])
@@ -22,13 +27,12 @@ def healthcheck(request):
 
 @server.route('/', methods=["POST"])
 def inference(request):
-
     try:
         model_inputs = response.json.loads(request.json)
     except:
         model_inputs = request.json
 
-    output = App.training(model_inputs)
+    output = user_src.training(model_inputs)
 
     return response.json(output)
 
