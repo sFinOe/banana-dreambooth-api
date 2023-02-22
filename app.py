@@ -1,10 +1,22 @@
-def training(model_inputs: dict) -> dict:
+import os
+import subprocess
+from natsort import natsorted
+from glob import glob
+import zipfile
 
-    import os
-    import subprocess
-    from natsort import natsorted
-    from glob import glob
-    import zipfile
+
+def init():
+
+    global ID, MODEL_NAME, VAE_NAME, LR_WARMUP_STEPS, \
+        MAX_TRAIN_STEPS, SAVE_SAMPLE_PROMPT, REVISION, \
+        NUM_CLASS_IMAGES, SAVE_MODEL, DATASET_PATH, CLASS_TYPE, \
+        ACCESS_ID, SECERT_KEY, ENDPOINT_URL, OUTPUT_DIR, HF_AUTH_TOKEN
+
+    OUTPUT_DIR = "output"
+    HF_AUTH_TOKEN = os.getenv("HF_AUTH_TOKEN")
+
+
+def training(model_inputs: dict) -> dict:
 
     ID = model_inputs.get("id", None)
     MODEL_NAME = model_inputs.get(
@@ -19,7 +31,6 @@ def training(model_inputs: dict) -> dict:
     SAVE_MODEL = model_inputs.get("save_model", None)
     DATASET_PATH = model_inputs.get("dataset_path", None)
     CLASS_TYPE = model_inputs.get("class_type", "person")
-    OUTPUT_DIR = "output"
 
     # s3 bucket config
 
@@ -43,7 +54,7 @@ def training(model_inputs: dict) -> dict:
         os.makedirs(folder_name, exist_ok=True)
     except FileExistsError:
         pass
-    token = "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"
+    token = HF_AUTH_TOKEN
     token_file = os.path.join(folder_name, "token")
     with open(token_file, "w") as f:
         f.write(token)

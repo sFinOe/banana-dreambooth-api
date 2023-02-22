@@ -21,7 +21,10 @@ RUN curl https://rclone.org/install.sh | bash
 
 RUN git clone https://github.com/djbielejeski/Stable-Diffusion-Regularization-Images-person_ddim.git class_images
 
+ENV HF_AUTH_TOKEN=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
+
 # We add the banana boilerplate here
+
 ADD server.py .
 EXPOSE 8000
 

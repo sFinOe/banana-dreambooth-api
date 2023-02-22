@@ -1,22 +1,10 @@
-# Do not edit if deploying to Banana Serverless
-# This file is boilerplate for the http server, and follows a strict interface.
-
-# Instead, edit the init() and inference() functions in app.py
-
 from sanic import Sanic, response
-# import subprocess
 import subprocess
-from natsort import natsorted
-from glob import glob
-import app
+import app as App
 
-# We do the model load-to-GPU step on server startup
-# so the model object is available globally for reuse
+App.init()
 
-# Create the http server app
 server = Sanic("my_app")
-
-# Healthchecks verify that the environment is correct on Banana Serverless
 
 
 @server.route('/healthcheck', methods=["GET"])
@@ -40,7 +28,7 @@ def inference(request):
     except:
         model_inputs = request.json
 
-    output = app.training(model_inputs)
+    output = App.training(model_inputs)
 
     return response.json(output)
 
