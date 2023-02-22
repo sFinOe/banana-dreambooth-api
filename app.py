@@ -1,16 +1,22 @@
-import os
-import subprocess
-from natsort import natsorted
-from glob import glob
-import zipfile
-
 
 def init():
+    import os
+    import subprocess
+    from natsort import natsorted
+    from glob import glob
+    import zipfile
+
     global HF_AUTH_TOKEN
     HF_AUTH_TOKEN = os.getenv("HF_AUTH_TOKEN")
 
 
 def training(model_inputs: dict) -> dict:
+
+    import os
+    import subprocess
+    from natsort import natsorted
+    from glob import glob
+    import zipfile
 
     ID = model_inputs.get("id", None)
     MODEL_NAME = model_inputs.get(
