@@ -53,7 +53,7 @@ def training(model_inputs: dict) -> dict:
             "instance_prompt":      ID,
             "class_prompt":         f"photo of a {CLASS_TYPE}",
             "instance_data_dir":    "data/images",
-            "class_data_dir":       "content/data/woman"
+            "class_data_dir":       "class_images/person_dimm"
         },
     ]
 
