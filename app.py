@@ -81,7 +81,7 @@ def training(model_inputs: dict) -> dict:
     # -----------------Download dataset-----------------#
 
     subprocess.call(
-        [f"rclone", "copy", f"cloudflare_r2:/{DATASET_PATH}", "data/images"])
+        [f"rclone", "copy", f"cloudflare_r2:{DATASET_PATH}", "data/images"])
 
     with zipfile.ZipFile(f"data/images/{ID}.zip", "r") as zip_ref:
         zip_ref.extractall("data/images")
@@ -115,6 +115,6 @@ def training(model_inputs: dict) -> dict:
     print(f"[*] SAVE_MODEL={SAVE_MODEL}")
 
     subprocess.call(["rclone", "copy", WEIGHTS_DIR,
-                     f"cloudflare_r2:/{SAVE_MODEL}"])
+                     f"cloudflare_r2:{SAVE_MODEL}"])
 
     return {"status": "success"}
