@@ -6,24 +6,26 @@ def training(model_inputs: dict) -> dict:
     from glob import glob
     import zipfile
 
-    ID = model_inputs["id"]
-    MODEL_NAME = model_inputs["model_name"]
-    VAE_NAME = model_inputs["vae_name"]
-    LR_WARMUP_STEPS = model_inputs["lr_warmup_steps"]
-    MAX_TRAIN_STEPS = model_inputs["max_train_steps"]
-    SAVE_SAMPLE_PROMPT = model_inputs["save_sample_prompt"]
-    REVISION = model_inputs["revision"]
-    NUM_CLASS_IMAGES = model_inputs["num_class_images"]
-    SAVE_MODEL = model_inputs["save_model"]
-    DATASET_PATH = model_inputs["dataset_path"]
-    CLASS_TYPE = model_inputs["class_type"]
+    ID = model_inputs.get("id", None)
+    MODEL_NAME = model_inputs.get(
+        "model_name", "runwayml/stable-diffusion-v1-5")
+    VAE_NAME = model_inputs.get("vae_name", "stabilityai/sd-vae-ft-mse")
+    LR_WARMUP_STEPS = model_inputs.get("lr_warmup_steps", "100")
+    MAX_TRAIN_STEPS = model_inputs.get("max_train_steps", "1000")
+    SAVE_SAMPLE_PROMPT = model_inputs.get(
+        "save_sample_prompt", f"photo of {ID}")
+    REVISION = model_inputs.get("revision", "main")
+    NUM_CLASS_IMAGES = model_inputs.get("num_class_images", "100")
+    SAVE_MODEL = model_inputs.get("save_model", None)
+    DATASET_PATH = model_inputs.get("dataset_path", None)
+    CLASS_TYPE = model_inputs.get("class_type", "person")
     OUTPUT_DIR = "output"
 
     # s3 bucket config
 
-    ACCESS_ID = model_inputs["access_id"]
-    SECERT_KEY = model_inputs["SECERT_KEY"]
-    ENDPOINT_URL = model_inputs["ENDPOINT_URL"]
+    ACCESS_ID = model_inputs.get("accessId", None)
+    SECERT_KEY = model_inputs.get("accessSecret", None)
+    ENDPOINT_URL = model_inputs.get("endpointUrl", None)
 
     # setup s3 bucket config
 

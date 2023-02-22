@@ -35,7 +35,12 @@ def healthcheck(request):
 @server.route('/', methods=["POST"])
 def inference(request):
 
-    output = app.training(request.json)
+    try:
+        model_inputs = response.json.loads(request.json)
+    except:
+        model_inputs = request.json
+
+    output = app.training(model_inputs)
 
     return response.json(output)
 
