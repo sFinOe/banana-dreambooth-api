@@ -100,6 +100,7 @@ def training(model_inputs: dict) -> dict:
 
     WEIGHTS_DIR = natsorted(glob(OUTPUT_DIR + os.sep + "*"))[-1]
     print(f"[*] WEIGHTS_DIR={WEIGHTS_DIR}")
+    print(f"[*] SAVE_MODEL={SAVE_MODEL}")
 
     subprocess.call(["rclone", "copy", WEIGHTS_DIR,
                      f"cloudflare_r2:/{SAVE_MODEL}"])
