@@ -1,3 +1,0 @@
-sanic==22.6.2
-scipy
-boto3

@@ -1,26 +1,29 @@
-import subprocess
-from natsort import natsorted
-from glob import glob
-import os
+def training(model_inputs: dict) -> dict:
 
+    import os
+    import subprocess
+    from natsort import natsorted
+    from glob import glob
+    import zipfile
 
-def inference(model_inputs: dict) -> dict:
-
-    MODEL_NAME = "SG161222/Realistic_Vision_V1.3"
-    VAE_NAME = "stabilityai/sd-vae-ft-mse"
-    LR_WARMUP_STEPS = "144"
-    MAX_TRAIN_STEPS = "1440"
-    SAVE_SAMPLE_PROMPT = "photo of 1676642713542"
-    REVISION = "main"
-    NUM_CLASS_IMAGES = "216"
-    SAVE_MODEL = "models/1676642713542"
-    OUTPUT_DIR = "/content/output"
+    ID = model_inputs["id"]
+    MODEL_NAME = model_inputs["model_name"]
+    VAE_NAME = model_inputs["vae_name"]
+    LR_WARMUP_STEPS = model_inputs["lr_warmup_steps"]
+    MAX_TRAIN_STEPS = model_inputs["max_train_steps"]
+    SAVE_SAMPLE_PROMPT = model_inputs["save_sample_prompt"]
+    REVISION = model_inputs["revision"]
+    NUM_CLASS_IMAGES = model_inputs["num_class_images"]
+    SAVE_MODEL = model_inputs["save_model"]
+    DATASET_PATH = model_inputs["dataset_path"]
+    CLASS_TYPE = model_inputs["class_type"]
+    OUTPUT_DIR = "output"
 
     # s3 bucket config
 
-    ACCESS_ID = "4e57071dba2f0fb9f5a2af8037e95e82"
-    SECERT_KEY = "0bdd57295ce8d381cb6a9ab486a0f02abbd9ab9eff8a7f521bea7cd03de8189c"
-    ENDPOINT_URL = "https://c5496cc41ca6d42c8358101ad551f1b4.r2.cloudflarestorage.com"
+    ACCESS_ID = model_inputs["access_id"]
+    SECERT_KEY = model_inputs["SECERT_KEY"]
+    ENDPOINT_URL = model_inputs["ENDPOINT_URL"]
 
     # setup s3 bucket config
 
@@ -45,10 +48,10 @@ def inference(model_inputs: dict) -> dict:
 
     concepts_list = [
         {
-            "instance_prompt":      "1676642713542",
-            "class_prompt":         "photo of a woman",
-            "instance_data_dir":    "/content/data/1676642713542",
-            "class_data_dir":       "/content/data/woman"
+            "instance_prompt":      ID,
+            "class_prompt":         f"photo of a {CLASS_TYPE}",
+            "instance_data_dir":    "data/images",
+            "class_data_dir":       "content/data/woman"
         },
     ]
 
@@ -60,6 +63,15 @@ def inference(model_inputs: dict) -> dict:
 
     with open("concepts_list.json", "w") as f:
         json.dump(concepts_list, f, indent=4)
+
+    # -----------------Download dataset-----------------#
+
+    subprocess.call(
+        [f"rclone", "copy", f"cloudflare_r2:/{DATASET_PATH}", "data/images"])
+
+    with zipfile.ZipFile(f"data/images/{ID}.zip", "r") as zip_ref:
+        zip_ref.extractall("data/images")
+    os.remove(f"data/images/{ID}.zip")
 
     subprocess.call(["accelerate", "launch", "train_dreambooth.py",
                     f"--pretrained_model_name_or_path={MODEL_NAME}",
@@ -81,11 +93,13 @@ def inference(model_inputs: dict) -> dict:
                      "--sample_batch_size=4",
                      f"--max_train_steps={MAX_TRAIN_STEPS}",
                      "--save_interval=10000",
-                     f"--save_sample_prompt={SAVE_SAMPLE_PROMPT}",
-                     "--concepts_list=MyConfig.json"])
+                     f"--save_sample_prompt='{SAVE_SAMPLE_PROMPT}'",
+                     "--concepts_list=concepts_list.json"])
 
     WEIGHTS_DIR = natsorted(glob(OUTPUT_DIR + os.sep + "*"))[-1]
     print(f"[*] WEIGHTS_DIR={WEIGHTS_DIR}")
 
     subprocess.call(["rclone", "copy", WEIGHTS_DIR,
                      f"cloudflare_r2:/{SAVE_MODEL}"])
+
+    return {"status": "success"}
