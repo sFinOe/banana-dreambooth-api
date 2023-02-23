@@ -1,2 +1,2 @@
 
-# Banana Dreambooth API
+# Banana Dreambooth API Endpoint
